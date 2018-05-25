@@ -46,16 +46,17 @@ app.use("/", routes);
 
 // CONNECT DB & START APP
 // ==================================
-mongoose.connect("mongodb://localhost/mongo-scraper-dev");
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongo-scraper-dev";
+mongoose.connect(MONGODB_URI);
 const db = mongoose.connection;
 
-db.on("error", (error) => {
-  console.log("Mongoose Error: ", error);
-});
+// db.on("error", (error) => {
+//   console.log("Mongoose Error: ", error);
+// });
 
-db.once("open", () => {
-  console.log("Mongoose connection successful.");
-});
+// db.once("open", () => {
+//   console.log("Mongoose connection successful.");
+// });
 
 app.listen(PORT, () => {
   console.log("App running on PORT " + PORT);
