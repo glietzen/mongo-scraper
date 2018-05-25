@@ -43,29 +43,26 @@ var Article = require("../models/Article.js");
       router.get("/delete/:id", function(req, res) {
         Article.findOneAndRemove({"_id": req.params.id}, function (err, offer) {
           if (err) {
-            console.log("Not able to delete:" + err);
+            console.log(err);
           } else {
-            console.log("Able to delete, Yay");
+            console.log("Post Deleted.");
           }
           res.redirect("/savedarticles");
         });
       });
 
       router.get("/notes/:id", function(req, res) {
-        console.log("ID is getting read for delete" + req.params.id);
-        console.log("Able to activate delete function.");
         Note.findOneAndRemove({"_id": req.params.id}, function (err, doc) {
           if (err) {
-            console.log("Not able to delete:" + err);
+            console.log(err);
           } else {
-            console.log("Able to delete, Yay");
+            console.log("Note deleted.");
           }
           res.send(doc);
         });
       });
       
       router.get("/articles/:id", function(req, res) {
-        console.log("ID is getting read" + req.params.id);
         Article.findOne({"_id": req.params.id})
         .populate('notes')
         .exec(function(err, doc) {
@@ -138,6 +135,7 @@ var Article = require("../models/Article.js");
         }
     });
     });
+
 // EXPORT
 // ===============================
 module.exports = router;
