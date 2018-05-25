@@ -49,15 +49,15 @@ app.use("/", routes);
 mongoose.connect("mongodb://localhost/mongo-scraper-dev");
 const db = mongoose.connection;
 
-db.on("error", function(error) {
+db.on("error", (error) => {
   console.log("Mongoose Error: ", error);
 });
 
-db.once("open", function() {
+db.once("open", () => {
   console.log("Mongoose connection successful.");
 });
 
-app.listen(PORT, function() {
+app.listen(PORT, () => {
   console.log("App running on PORT " + PORT);
 });
 
