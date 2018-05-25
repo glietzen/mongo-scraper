@@ -1,56 +1,64 @@
 // REQUIRE PACKAGES
 // ==================================
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const request = require('request');
-const cheerio = require('cheerio');
-const exphbs = require('express-handlebars');
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 // GET MODELS
 // ==================================
-let Note = require('./models/Note');
-let Article = require('./models/Article');
+const Note = require("./models/Note.js");
+const Article = require("./models/Article.js");
 
+// SCRAPING TOOLS
+// ==================================
+const request = require("request");
+const cheerio = require("cheerio");
 
-// SET MONGO
+// SET MONGO & PORT
 // ==================================
 mongoose.Promise = Promise;
-
-// SET PORT
-// ==================================
 let PORT = process.env.PORT || 8000;
 
 // INITIALIZE EXPRESS
 // ==================================
 let app = express();
-app.use(express.static('public'));
 
-// SETUP HANDLEBARS & STATIC
+// PARSE BODY
 // ==================================
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
+// SET STATIC DIRECTORY
+// ==================================
+app.use(express.static("public"));
+
+// SET HANDLEBARDS
+// ==================================
+const exphbs = require("express-handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // SET ROUTES
 // ==================================
-let routes = require('./controllers/scraper_controller');
-app.use('/', routes);
-
+const routes = require("./controllers/scraper_controller.js");
+app.use("/", routes);
 
 // CONNECT DB & START APP
 // ==================================
 mongoose.connect("mongodb://localhost/mongo-scraper-dev");
-let db = mongoose.connection;
+const db = mongoose.connection;
 
-db.on('error', (e) => {
-    console.log(e);
-})
-
-db.once('open', () => {
-    console.log('Mongoose success.')
+db.on("error", function(error) {
+  console.log("Mongoose Error: ", error);
 });
 
-app.listen(PORT, () => {
-    console.log(`App running on port ${PORT}.`);
+db.once("open", function() {
+  console.log("Mongoose connection successful.");
 });
+
+app.listen(PORT, function() {
+  console.log("App running on PORT " + PORT);
+});
+
+
