@@ -1,5 +1,3 @@
-import { mongo } from 'mongoose';
-
 // REQUIRE PACKAGES
 // ===============================
 const mongoose = require('mongoose');
@@ -19,4 +17,4 @@ let Note = mongoose.model("Note", NoteSchema);
 
 // EXPORT
 // ===============================
-module.exports = Article;
+module.exports = Note;

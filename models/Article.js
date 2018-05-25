@@ -1,5 +1,3 @@
-import { mongo } from 'mongoose';
-
 // REQUIRE PACKAGES
 // ===============================
 const mongoose = require('mongoose');
